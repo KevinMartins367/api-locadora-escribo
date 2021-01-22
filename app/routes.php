@@ -124,36 +124,55 @@ return function (App $app) {
     });
     
     $app->group('/rents', function (Group $group) {
-        // get all clients
+        // get all rents
         $group->get('', function(Request $request, Response $response){
             $dados = (new RentController())->index();
             $response->getbody()->write($dados);         
             return $response;
             
         });
-        // get unique clients
+        // get unique rents
         $group->get('/{id}', function(Request $request, Response $response, $id){
             $dados = (new RentController())->find($id);
             $response->getbody()->write($dados);         
             return $response;
             
         });
-        // create clients
+        // create rents
         $group->post('', function(Request $request, Response $response){
             $dados = (new RentController())->create($request->getParsedBody());
             $response->getbody()->write($dados);         
             return $response;
             
         });
-        // update clients
+        // update rents
         $group->put('/{id}', function(Request $request, Response $response, $id){
             $data = $request->getBody()->getContents();
-            $dados = (new RentController())->update($data, $id);
+            (new RentController())->update($data, $id);
+            $dados = (new RentController())->find($id);
             $response->getbody()->write($dados);         
             return $response;
             
         });
-        // delete clients
+        // update rents
+        $group->put('/note/{id}', function(Request $request, Response $response, $id){
+            $data = $request->getBody()->getContents();
+            (new RentController())->updateNote($data, $id);
+            $dados = (new RentController())->find($id);
+            $response->getbody()->write($dados);         
+            return $response;
+            
+        });
+        // update rents
+        $group->put('/surrender/{id}', function(Request $request, Response $response, $id){
+            $dados1 = (new RentController())->updateTime_end($id);
+            (new VeiculosController())->refund(json_decode($dados1)[0]->veiculo_id);
+            $dados = (new RentController())->find($id);
+            $response->getbody()->write($dados); 
+            return $response;
+            
+        });
+        // delete rents
         $group->delete('/{id}', function(Request $request, Response $response, $id){
             $dados = (new RentController())->delete($id);
             $response->getbody()->write($dados);         
