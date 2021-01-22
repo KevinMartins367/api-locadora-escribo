@@ -23,7 +23,7 @@ return function (App $app) {
 
     $app->get('/', function (Request $request, Response $response) {
         
-        $response->getBody()->write('teste');
+        $response->getBody()->write('<a href="https://documenter.getpostman.com/view/2815813/TW6tKUmJ" target="_blank"><h1>documentação</h1></a>');
         return $response;
     });
 
