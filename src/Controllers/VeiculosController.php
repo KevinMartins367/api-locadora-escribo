@@ -56,73 +56,55 @@ class VeiculosController
 
     public function update($dados, $id)
     {
-        $veiculos = $this->veiculos::find($id);
-        $veiculos->modelo =  $dados['modelo'];
-        $veiculos->placa =  $dados['placa'];
-        $veiculos->type =  $dados['type'];
-        $veiculos->status =  $dados['status'];
-        $veiculos->cor =  $dados['cor'];
-        $veiculos->ano =  $dados['ano'];
-        $veiculos->save();
+        $infos = json_decode($dados, true);
+        $client = $this->veiculos
+        ->where('id', $id)
+        ->update($infos);
 
-		$payload = json_encode($veiculos);
+		$payload = json_encode($this->veiculos->find($id));
 
         return $payload;
     }
 
-    public function rent($dados, $id)
+    public function rent($id)
     {
-        $veiculos = $this->veiculos::find($id);
-        $veiculos->modelo =  $dados['modelo'];
-        $veiculos->placa =  $dados['placa'];
-        $veiculos->type =  $dados['type'];
-        $veiculos->status =  1;
-        $veiculos->cor =  $dados['cor'];
-        $veiculos->ano =  $dados['ano'];
-        $veiculos->save();
+        $veiculos = $this->veiculos
+        ->where('id', $id)
+        ->update([
+            'status' => 1
+        ]);
 
-		$payload = json_encode($veiculos);
-
+		$payload = json_encode($this->veiculos->find($id));
         return $payload;
     }
 
-    public function refund($dados, $id)
+    public function refund($id)
     {
-        $veiculos = $this->veiculos::find($id);
-        $veiculos->modelo =  $dados['modelo'];
-        $veiculos->placa =  $dados['placa'];
-        $veiculos->type =  $dados['type'];
-        $veiculos->status =  0;
-        $veiculos->cor =  $dados['cor'];
-        $veiculos->ano =  $dados['ano'];
-        $veiculos->save();
+        $veiculos = $this->veiculos
+        ->where('id', $id)
+        ->update([
+            'status' => 0
+        ]);
 
-		$payload = json_encode($veiculos);
-
+		$payload = json_encode($this->veiculos->find($id));
         return $payload;
     }
 
-    public function maintenance($dados, $id)
+    public function maintenance($id)
     {
-        $veiculos = $this->veiculos::find($id);
-        $veiculos->modelo =  $dados['modelo'];
-        $veiculos->placa =  $dados['placa'];
-        $veiculos->type =  $dados['type'];
-        $veiculos->status =  2;
-        $veiculos->cor =  $dados['cor'];
-        $veiculos->ano =  $dados['ano'];
-        $veiculos->save();
+        $veiculos = $this->veiculos
+        ->where('id', $id)
+        ->update([
+            'status' => 2
+        ]);
 
-		$payload = json_encode($veiculos);
-
+		$payload = json_encode($this->veiculos->find($id));
         return $payload;
     }
 
     public function delete($id)
     {
-        $veiculos = $this->veiculos::find($id);
-
-        $veiculos->delete();
+        $veiculos = $this->veiculos->where('id', $id)->get()->each->delete();
 		$payload = json_encode($veiculos);
 
         return $payload;
