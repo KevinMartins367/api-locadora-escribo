@@ -28,35 +28,53 @@ return function (App $app) {
     });
 
     $app->group('/vehicles', function (Group $group) {
-        // get all vehicles
+        // get all veiculos
         $group->get('', function(Request $request, Response $response){
             $dados = (new VeiculosController())->index();
             $response->getbody()->write($dados);         
             return $response;
             
         });
-        // get unique vehicles
+        // get unique veiculos
         $group->get('/{id}', function(Request $request, Response $response, $id){
             $dados = (new VeiculosController())->find($id);
             $response->getbody()->write($dados);         
             return $response;
             
         });
-        // create vehicles
+        // create veiculos
         $group->post('', function(Request $request, Response $response){
             $dados = (new VeiculosController())->create($request->getParsedBody());
             $response->getbody()->write($dados);         
             return $response;
             
         });
-        // update vehicles
+        // update veiculos
         $group->put('/{id}', function(Request $request, Response $response, $id){
             $dados = (new VeiculosController())->update($request->getParsedBody(), $id);
             $response->getbody()->write($dados);         
             return $response;
             
         });
-        // delete vehicles
+        // alugar veiculos
+        $group->put('/rent/{id}', function(Request $request, Response $response, $id){
+            $dados = (new VeiculosController())->rent($request->getParsedBody(), $id);
+            $response->getbody()->write($dados);         
+            return $response;  
+        });
+        // devolver veiculos
+        $group->put('/refund/{id}', function(Request $request, Response $response, $id){
+            $dados = (new VeiculosController())->refund($request->getParsedBody(), $id);
+            $response->getbody()->write($dados);         
+            return $response;  
+        });
+        // maintenance veiculos
+        $group->put('/maintenance/{id}', function(Request $request, Response $response, $id){
+            $dados = (new VeiculosController())->maintenance($request->getParsedBody(), $id);
+            $response->getbody()->write($dados);         
+            return $response;  
+        });
+        // delete veiculos
         $group->delete('/{id}', function(Request $request, Response $response, $id){
             $dados = (new VeiculosController())->delete($id);
             $response->getbody()->write($dados);         

@@ -70,6 +70,54 @@ class VeiculosController
         return $payload;
     }
 
+    public function rent($dados, $id)
+    {
+        $veiculos = $this->veiculos::find($id);
+        $veiculos->modelo =  $dados['modelo'];
+        $veiculos->placa =  $dados['placa'];
+        $veiculos->type =  $dados['type'];
+        $veiculos->status =  1;
+        $veiculos->cor =  $dados['cor'];
+        $veiculos->ano =  $dados['ano'];
+        $veiculos->save();
+
+		$payload = json_encode($veiculos);
+
+        return $payload;
+    }
+
+    public function refund($dados, $id)
+    {
+        $veiculos = $this->veiculos::find($id);
+        $veiculos->modelo =  $dados['modelo'];
+        $veiculos->placa =  $dados['placa'];
+        $veiculos->type =  $dados['type'];
+        $veiculos->status =  0;
+        $veiculos->cor =  $dados['cor'];
+        $veiculos->ano =  $dados['ano'];
+        $veiculos->save();
+
+		$payload = json_encode($veiculos);
+
+        return $payload;
+    }
+
+    public function maintenance($dados, $id)
+    {
+        $veiculos = $this->veiculos::find($id);
+        $veiculos->modelo =  $dados['modelo'];
+        $veiculos->placa =  $dados['placa'];
+        $veiculos->type =  $dados['type'];
+        $veiculos->status =  2;
+        $veiculos->cor =  $dados['cor'];
+        $veiculos->ano =  $dados['ano'];
+        $veiculos->save();
+
+		$payload = json_encode($veiculos);
+
+        return $payload;
+    }
+
     public function delete($id)
     {
         $veiculos = $this->veiculos::find($id);
