@@ -28,32 +28,37 @@ return function (App $app) {
     });
 
     $app->group('/vehicles', function (Group $group) {
+        // get all vehicles
         $group->get('', function(Request $request, Response $response){
             $dados = (new VeiculosController())->index();
             $response->getbody()->write($dados);         
             return $response;
             
         });
+        // get unique vehicles
         $group->get('/{id}', function(Request $request, Response $response, $id){
             $dados = (new VeiculosController())->find($id);
             $response->getbody()->write($dados);         
             return $response;
             
         });
+        // create vehicles
         $group->post('', function(Request $request, Response $response){
             $dados = (new VeiculosController())->create($request->getParsedBody());
             $response->getbody()->write($dados);         
             return $response;
             
         });
+        // update vehicles
         $group->put('/{id}', function(Request $request, Response $response, $id){
-            $dados = (new VeiculosController())->find($id);
+            $dados = (new VeiculosController())->update($request->getParsedBody(), $id);
             $response->getbody()->write($dados);         
             return $response;
             
         });
+        // delete vehicles
         $group->delete('/{id}', function(Request $request, Response $response, $id){
-            $dados = (new VeiculosController())->find($id);
+            $dados = (new VeiculosController())->delete($id);
             $response->getbody()->write($dados);         
             return $response;
             

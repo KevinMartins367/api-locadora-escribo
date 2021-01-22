@@ -1,12 +1,12 @@
 {
-    "name": "api-locadora-escribo",
-    "description": "",
+    "name": "api/locadoraescribo",
     "keywords": [
         "microframework",
         "rest",
         "router",
         "psr7"
     ],
+    "license": "MIT",
     "require": {
         "php": "^7.2",
         "ext-json": "*",

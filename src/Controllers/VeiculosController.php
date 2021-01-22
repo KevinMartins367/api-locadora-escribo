@@ -16,7 +16,10 @@ class VeiculosController
 
     public function index() {
 
-        $data = $this->veiculos::all();
+        $data = $this->veiculos
+            ->select('veiculos.id',"veiculos.modelo","veiculos.placa","veiculos.status", "veiculos.ano","veiculos.cor","veiculos.updated_at","veiculos.created_at","type_veiculos.name as tipo")
+            ->join('type_veiculos', 'veiculos.type', '=', 'type_veiculos.id')
+            ->get();
 
 		$payload = json_encode($data);
 
@@ -25,7 +28,11 @@ class VeiculosController
 
     public function find($id)
     {
-        $data = $this->veiculos::find($id);
+        $data = $this->veiculos
+        ->select('veiculos.id',"veiculos.modelo","veiculos.placa","veiculos.status", "veiculos.ano","veiculos.cor","veiculos.updated_at","veiculos.created_at","type_veiculos.name as tipo")
+        ->join('type_veiculos', 'veiculos.type', '=', 'type_veiculos.id')
+        ->where('veiculos.id', $id)
+        ->get();
 
 		$payload = json_encode($data);
 
@@ -42,6 +49,32 @@ class VeiculosController
         $veiculos->cor =  $dados['cor'];
         $veiculos->ano =  $dados['ano'];
         $veiculos->save();
+		$payload = json_encode($veiculos);
+
+        return $payload;
+    }
+
+    public function update($dados, $id)
+    {
+        $veiculos = $this->veiculos::find($id);
+        $veiculos->modelo =  $dados['modelo'];
+        $veiculos->placa =  $dados['placa'];
+        $veiculos->type =  $dados['type'];
+        $veiculos->status =  $dados['status'];
+        $veiculos->cor =  $dados['cor'];
+        $veiculos->ano =  $dados['ano'];
+        $veiculos->save();
+
+		$payload = json_encode($veiculos);
+
+        return $payload;
+    }
+
+    public function delete($id)
+    {
+        $veiculos = $this->veiculos::find($id);
+
+        $veiculos->delete();
 		$payload = json_encode($veiculos);
 
         return $payload;
